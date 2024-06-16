@@ -1,6 +1,6 @@
 # RAVOWI: Real-time Analysis and Validation Of Webcam Images
 
-This application is a product of my Bachelor's thesis at the Faculty of Mathematics and Physics, Charles University. The thesis project exemplifies the practical application and integration of advanced AI methodologies in real-time image processing and analysis. 
+This application is a product of my Bachelor's thesis at the Faculty of Mathematics and Physics, Charles University. The thesis project exemplifies the practical application and integration of advanced AI methodologies in real-time image processing and analysis.
 
 The complete thesis is located in the `doc/cs/` directory and is available only in the Czech language.
 
@@ -58,3 +58,11 @@ Upon the successful construction of Docker containers via the Docker Compose too
 ## Technical Insights
 
 The application operates entirely on CPU, with all deep learning models being facilitated by the NVIDIA Triton Inference Server. These models are in ONNX format for broad compatibility. An alternative execution path exists for leveraging TensorRT format on CUDA GPUs, which necessitates direct model compilation on the specific GPU in use. The conversion from ONNX to TensorRT formats can be efficiently performed using the `trtexec` utility.
+
+## Poster
+
+<img src="docs/cs/poster.jpg" alt="Poster">
+
+<br>
+
+A high-resolution PDF version of this poster can be found in the `docs/cs` directory.
