@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  triton:
+    build:
+      context: ./triton
+      dockerfile: Dockerfile
+    networks:
+      - triton_network
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+
+  meteval:
+    build:
+      context: .
+      dockerfile: Dockerfile.mac
+    networks:
+      - triton_network
+    depends_on:
+      - triton
+    ports:
+      - "3000:3000"
+
+networks:
+  triton_network:

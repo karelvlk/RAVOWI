@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MetSnap</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="overlay-dialog">
+        <div id="dialog">
+            <div id="dialog-heading"></div>
+            <div id="dialog-info"></div>
+            <div id="dialog-btn-container">
+                <button class="dialog-btn" id="dialog-back">Back</button>
+                <button class="dialog-btn" id="dialog-continue">Continue</button>
+            </div>
+        </div>
+    </div>
+    <div id="menu">
+        <div id="btn-logo" class="btn-div">
+            <input type="file" id="fileInput" style="display: none;">
+            <button class="svg-button" onclick="handleBackBtnClick();">
+                <img src="icons/metsnap-web-logo.png" class="btn" id="logo-img" alt="Logo">
+            </button>
+        </div>
+        <div id="btn-upload" class="btn-div">
+            <input type="file" id="fileInput" style="display: none;">
+            <button class="svg-button" id="svg-upload-button" onclick="triggerFileSelect();">
+                <img src="icons/upload_btn.svg" class="btn" width="34px" alt="Upload">
+            </button>
+        </div>
+        <div class="info-div">
+            <div>
+                version 1.0.0
+            </div>
+        </div>
+    </div>
+    <div id="mobile-menu">
+        <div id="btn-logo" class="btn-div">
+            <input type="file" id="fileInput" style="display: none;">
+            <button class="svg-button" onclick="handleBackBtnClick();">
+                <img src="icons/metsnap-mobile-logo.png" class="btn" id="logo-img" alt="Logo">
+            </button>
+        </div>
+        <div id="burger-menu">
+            <span></span>
+        </div>
+        <div id="bur-menu-content">
+            <ul>
+            <li>
+                <div id="btn-upload" class="btn-div">
+                    <input type="file" id="fileInput" style="display: none;">
+                    <button class="svg-button" id="svg-upload-button" onclick="triggerFileSelect();">
+                        <img src="icons/upload_btn.svg" class="btn" width="34px" alt="Upload">
+                    </button>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </div>
+    <div id="img-content">
+        <div id="img-info-div">
+            <div id="img-info-welcome">
+                <div class="text-icon">
+                    Click on <img src="icons/upload.svg" width="18px" height="18px" class="text-icon" alt="Upload"> to upload image for analysis.
+                </div>
+            </div>
+            <div id="img-info-processing">
+                <div>
+                    <img src="icons/loading.webp" width="200px" alt="Description of the GIF">
+                </div>
+                <div>
+                    Analyzing...
+                </div>
+            </div>
+            <div id="img-info-error">
+                <div id="img-info-error-message" style="color: red;">
+                    Error occured.
+                </div>
+                <div style="display: flex; flex-direction: row; padding: 1em; align-items: center; text-align: justify;">
+                    Please try again by clicking on <img src="icons/upload.svg" width="18px" height="18px" class="text-icon" alt="Upload">
+                </div>
+            </div>
+        </div>
+        <div id="img-content-div">
+            <div id="checkboxes-div">
+                <div id="checkboxes"></div>
+            </div>
+            <div id="img-div">
+                <div id="canvas-container"></div>
+            </div>
+        </div>
+    </div>
+    <div id="json-content" style="display: none">
+        
+    </div>
+    <script src="client.js"></script>
+</body>
+
+</html>

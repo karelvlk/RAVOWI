@@ -1,0 +1,40 @@
+name: "scene-understanding_detection"
+platform: "onnxruntime_onnx"
+max_batch_size: 16
+
+dynamic_batching {
+  preferred_batch_size: [ 4, 8 ]
+  max_queue_delay_microseconds: 25
+}
+
+input [
+  {
+    name: "images"
+    data_type: TYPE_FP32
+    dims: [ 3, 640, 640 ]
+    format: FORMAT_NCHW
+  }
+]
+output [
+  {
+    name: "output0"
+    data_type: TYPE_FP32
+    dims: [ -1, -1 ] 
+  }
+]
+
+instance_group [
+  {
+    kind: KIND_CPU
+    count: 1
+  }
+]
+
+# Parameters for ONNX Runtime
+parameters [
+  {
+    key: "ORT_ENABLE_ALL_OPTIMIZATION"
+    value: { string_value: "true" }
+  }
+]
+

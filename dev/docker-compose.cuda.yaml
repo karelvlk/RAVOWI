@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: ./docker/interference/Dockerfile.cuda
+    ports:
+      - 4000:4000
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "4000"]
+    volumes:
+      - ../.secret:/gcloud
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  frontend:
+    build:
+      context: ./
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - 8000:80
+    depends_on:
+      - backend

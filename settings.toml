@@ -1,0 +1,165 @@
+# -- Preprocessing --
+resizing_longer_side = 720
+
+# -- Api --
+use_model_api = true
+triton_url = "triton:8001"
+
+# -- Machine Learning Models --
+category_cls_model = "./src/image_classifiers/categorizer/models/cat_cls"
+category_box_model = "./src/image_classifiers/categorizer/models/cat_box"
+weather_cls_model = "./cls/classification_weather6softmax_smth02_20230801-091517_log"
+blr_model = "./weights/weights1/blur/0.9428571428571428-0.9466666666666668"
+sky_model = "./weights/weights1/yolo/run/sky_detection_0.993_0.953_1702665019/weights/best.pt"
+nud_model = "./weights/weights1/yolo/run/anatomical_exposure_detection_0.991_0.829_1702858293/weights/best.pt"
+txt_model = "./weights/weights1/yolo/run/text_detection_0.898_0.664_1703315876/weights/best.pt"
+bse_model = "./weights/weights1/yolo/run/yolov8s.pt"
+scu_model = "./weights/weights1/yolo/run/scene-understanding_detection_0.698_0.542_1702812492/weights/best.pt"
+plt_model = "./weights/weights1/yolo/run/license_plate_detection_0.992_0.82_1703177718/weights/best.pt"
+fce_model = "./weights/weights1/yolo/run/face_detection_0.93_0.688_1702961484/weights/best.pt"
+sun_model = "./weights/weights1/yolo/run/sun_detection_0.874_0.648_1702974146/weights/best.pt"
+
+
+
+# -- Magic Postprocessing Numbers (CSP) --
+nudity_classes = ["EXPOSED_BELLY", "EXPOSED_BREAST_F", "EXPOSED_BREAST_M", "EXPOSED_BUTTOCKS", "EXPOSED_GENITALIA_F", "EXPOSED_GENITALIA_M"]
+
+sky_classes = ["sky"]
+water_classes = ["water", "sea water", "river water"]
+
+skin_color_range = [[0, 20, 20], [40, 255, 255]]
+grass_color_range = [[30, 30, 30], [85, 255, 255]]
+daytime_skies_color_range = [[0, 0, 100], [255, 255, 255]]
+nighttime_skies_color_range = [[0, 0, 0], [150, 150, 150]]
+overcast_skies_color_range = [[0, 100, 100], [255, 255, 255]]
+sunset_skies_color_range = [[100, 50, 0], [255, 150, 100]]
+
+water_conf_threshold = 0.15
+sky_conf_threshold = 0.8
+
+object_detection_type_full_classes = [
+    "wall", "window", "floor", "sky", "trees", "building", "tree", "plant", "plants",
+    "grass", "road", "buildings", "mountain", "car", "person", "box", "ground", 
+    "sidewalk", "sign", "flowers", "fence", "skyscraper", "streetlight", "sea water", 
+    "house", "railing", "water", "screen", "bushes", "stone", "balcony", "plate", 
+    "text", "boxes", "field", "rock", "palm tree", "rocks", "path", "bench", 
+    "snowy mountain", "river water", "hedge", "stones", "spotlight", "gate", "land", 
+    "cars", "rocky mountain", "sand beach", "floor lamp", "people", "board", "bridge", 
+    "snow", "fireplace", "billiard table", "airplane", "sand", "waterfall", "tower", 
+    "snowy ground", "crosswalk", "houses", "water fountain", "hanger", "swimming pool", 
+    "mountains", "cloudy sky", "palm trees", "person", "bicycle", "car", "motorcycle", 
+    "airplane", "bus", "train", "truck", "boat", "traffic light", "fire hydrant", 
+    "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", 
+    "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella", "handbag", 
+    "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", 
+    "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket", 
+    "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple", 
+    "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", 
+    "chair", "couch", "potted plant", "bed", "dining table", "toilet", "tv", "laptop", 
+    "mouse", "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink", 
+    "refrigerator", "book", "clock", "vase", "scissors", "teddy bear", "hair drier", 
+    "toothbrush", "text", "licence plate", "sun", "face", "EXPOSED_BELLY", 
+    "EXPOSED_BREAST_F", "EXPOSED_BREAST_M", "EXPOSED_BUTTOCKS", "EXPOSED_GENITALIA_F", 
+    "EXPOSED_GENITALIA_M",
+]
+
+object_detection_type_sun_classes = ["sun"]
+
+object_detection_type_vegetation_classes = [
+    "tree", "trees", "plant", "plants", "grass", "road", "mountain", "mountains", 
+    "ground", "sidewalk", "flowers", "bushes", "stone", "stones", "field", "rock", 
+    "rocks", "palm tree", "palm trees", "path", "snowy mountain", "hedge", "land", 
+    "rocky mountain", "sand beach", "sand", "snowy ground", "crosswalk",
+]
+
+
+priority_iou_pick = [
+    "EXPOSED_BELLY",
+    "EXPOSED_BREAST_F",
+    "EXPOSED_BUTTOCKS",
+    "EXPOSED_GENITALIA_F",
+    "EXPOSED_GENITALIA_M",
+    "person",
+    "water",
+    "sea water",
+    "river water",
+]
+
+iou_pick_threshold = 0.8
+
+filtered_nudity = ["EXPOSED_BELLY", "EXPOSED_BREAST_F", "EXPOSED_BREAST_M", "EXPOSED_BUTTOCKS", "EXPOSED_GENITALIA_F", "EXPOSED_GENITALIA_M"]
+filtered_vehicle = ["car", "truck", "motorbike", "bus"]
+
+[nudity_conf_thresholds]
+EXPOSED_BELLY = 0.2
+EXPOSED_BREAST_F = 0.2
+EXPOSED_BREAST_M = 0.5
+EXPOSED_BUTTOCKS = 0.5
+EXPOSED_GENITALIA_F = 0.4
+EXPOSED_GENITALIA_M = 0.2
+
+[default_conf_thresholds]
+default = 0.225
+face = 0.5
+license_plate = 0.15
+sun = 0.10
+dog = 0.5
+person = 0.35
+building = 0.15
+grass = 0.15
+road = 0.15
+buildings = 0.15
+mountain = 0.15
+car = 0.35
+ground = 0.15
+sidewalk = 0.15
+skyscraper = 0.15
+streetlight = 0.15
+seawater = 0.15
+water = 0.15
+bushes = 0.15
+stone = 0.15
+text = 0.35
+field = 0.15
+rock = 0.15
+palmtree = 0.15
+rocks = 0.15
+path = 0.15
+bench = 0.15
+snowymountain = 0.2
+riverwater = 0.15
+hedge = 0.15
+stones = 0.15
+land = 0.15
+rockymountain = 0.15
+sandbeach = 0.15
+bridge = 0.15
+snow = 0.15
+airplane = 0.15
+sand = 0.15
+tower = 0.15
+snowyground = 0.15
+crosswalk = 0.15
+swimmingpool = 0.15
+mountains = 0.15
+cloudysky = 0.15
+palmtrees = 0.15
+tree = 0.15
+trees = 0.15
+
+[categorization_must_ors]
+airport = [["building", "road", "field", "grass", "ground"]]
+building = [["building", "buildings"]]
+city = [["building", "buildings"]]
+coast = [["water", "sea water", "river water"]]
+forest = [["tree", "trees"]]
+lake = [["water", "river water", "sea water"]]
+landscape = [["sky"], ["ground", "mountain", "grass", "road", "field", "snowy mountain", "rocky mountain", "water", "sea water", "river water"]]
+meteo = [["sky"]]
+mountain = [["mountain", "snowy mountain", "rocky mountain"]]
+port = [["water", "sea water", "river water"]]
+river = [["water", "river water", "sea water"]]
+traffic = [["road", "sidewalk", "crosswalk"]]
+village = [["building", "buildings"]]
+unknown = [[]]
+

@@ -1,0 +1,38 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        language: system
+        types: [python]
+        args: ["--quiet", "-t", "py311"]
+      - id: isort
+        name: isort
+        entry: isort
+        language: system
+        types: [python]
+        args: ["--filter-files"]
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [python]
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        args: [
+            "-rn", # Only display messages
+            "-sn", # Don't display the score
+            "--rcfile=.pylintrc", # Link to your config file
+            "-j",
+            "8",
+          ]
+      - id: ruff
+        name: ruff
+        entry: ruff
+        language: system
+        types: [python]
+        args: ["check"]

@@ -1,0 +1,51 @@
+# MODEL
+# ! CATEGORIZATION - ONEHOT !
+#
+model:
+  custom_model:
+    name: MLP_onehot
+    layers:
+      - type: Linear
+        in_features: 68
+        out_features: 1024
+      - type: ReLU
+      - type: Linear
+        in_features: 1024
+        out_features: 19
+
+# HYPERPARAMS
+scheduler_custom:
+  type: "OneCycleLR"
+  params:
+    max_lr: 0.002
+    epochs: "epochs"
+    steps_per_epoch: "data_length"
+
+optim_custom:
+  type: "AdamW"
+  params:
+    lr: 0.001
+    weight_decay: 0.0001
+
+grad_clip: 0.1
+epochs_custom: 30
+classes:
+  - airport'
+  - beach'
+  - building'
+  - city'
+  - coast'
+  - forest'
+  - indoor'
+  - lake'
+  - landscape'
+  - meteo'
+  - mountain'
+  - port'
+  - river'
+  - sportarea'
+  - square'
+  - traffic'
+  - village'
+class_weights: null
+reduction: sum

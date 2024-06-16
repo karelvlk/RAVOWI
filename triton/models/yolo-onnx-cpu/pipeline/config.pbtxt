@@ -1,0 +1,153 @@
+name: "pipeline"
+platform: "ensemble"
+max_batch_size: 16
+
+input [
+  {
+    name: "images"
+    data_type: TYPE_FP32
+    dims: [ 3, 640, 640 ]
+  }
+]
+output [
+  {
+    name: "ANATOMICAL_EXPOSURE_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  },
+  {
+    name: "COCO_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  },
+  {
+    name: "FACE_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  },
+  {
+    name: "LICENSE_PLATE_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  },
+  {
+    name: "SCENE-UNDERSTANDING_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  },
+  {
+    name: "SKY_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  },
+  {
+    name: "SUN_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  },
+  {
+    name: "TEXT_DETECTION_OUT"
+    data_type: TYPE_FP32
+    dims: [ -1, 8400 ]
+  }
+]
+ensemble_scheduling {
+  step [
+    {
+      model_name: "anatomical_exposure_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "ANATOMICAL_EXPOSURE_DETECTION_OUT"
+      }
+    },
+    {
+      model_name: "coco_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "COCO_DETECTION_OUT"
+      }
+    },
+    {
+      model_name: "face_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "FACE_DETECTION_OUT"
+      }
+    },
+    {
+      model_name: "license_plate_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "LICENSE_PLATE_DETECTION_OUT"
+      }
+    },
+    {
+      model_name: "scene-understanding_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "SCENE-UNDERSTANDING_DETECTION_OUT"
+      }
+    },
+    {
+      model_name: "sky_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "SKY_DETECTION_OUT"
+      }
+    },
+    {
+      model_name: "sun_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "SUN_DETECTION_OUT"
+      }
+    },
+    {
+      model_name: "text_detection"
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "images"
+      }
+      output_map {
+        key: "output0"
+        value: "TEXT_DETECTION_OUT"
+      }
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+# MODEL
+
+model:
+  base_model:
+    name: efficientnet_b0
+    weights: DEFAULT
+    last_layer: classifier
+    specific_layer_index: 1
+  classifier:
+    layers:
+      - type: BatchNorm1d
+        num_features: num_ftrs
+      - type: Dropout
+        p: 0.3
+      - type: Linear
+        in_features: num_ftrs
+        out_features: 512
+      - type: ReLU
+      - type: BatchNorm1d
+        num_features: 512
+      - type: Dropout
+        p: 0.3
+      - type: Linear
+        in_features: 512
+        out_features: 256
+      - type: ReLU
+      - type: BatchNorm1d
+        num_features: 256
+      - type: Dropout
+        p: 0.3
+      - type: Linear
+        in_features: 256
+        out_features: 1
+        
+# HYPERPARAMS
+scheduler_head:
+  type: "OneCycleLR"
+  params:
+    max_lr: 0.01
+    epochs: "epochs"
+    steps_per_epoch: "data_length"
+
+scheduler_whole:
+  type: "OneCycleLR"
+  params:
+    max_lr: 0.01
+    epochs: "epochs"
+    steps_per_epoch: "data_length"
+
+optim_head: 
+  type: "AdamW"
+  params:
+    lr: 0.005
+    eps: 0.0000001
+    weight_decay: 0.
+
+optim_whole: 
+  type: "AdamW"
+  params:
+    lr: 0.0001
+    eps: 0.0000001
+    weight_decay: 0.004
+
+grad_clip: 0.1
+epochs_head: 12
+epochs_whole: 18
+classes:
+  - cloudy
+  - foggy
+  - rain
+  - shine
+  - snow
+  - sunrise
+class_weights: null
